@@ -1,0 +1,7 @@
+CREATE TABLE sms (
+	id BIGSERIAL PRIMARY KEY,
+	client_id BIGINT NOT NULL,
+	phone_number VARCHAR(255) NOT NULL,
+	message_type VARCHAR(10) NOT NULL,
+	text_sms VARCHAR(255) NOT NULL
+);
