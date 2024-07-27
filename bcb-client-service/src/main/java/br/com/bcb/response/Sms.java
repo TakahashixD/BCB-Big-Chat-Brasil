@@ -1,41 +1,19 @@
-package br.com.bcb.model;
+package br.com.bcb.response;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 import br.com.bcb.enums.MessageType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Table(name = "sms")
-@Entity
 public class Sms implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "client_id", nullable = false)
-	private Long clientId;
 
-	@Column(name = "phone_number", nullable = false)
+	private Long id;
+	private Long clientId;
 	private String phoneNumber;
-	
-	@Column(name = "message_type", length = 10, nullable = false)
-	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
-	
-	@Column(name = "text_sms", nullable = false)
 	private String textSms;
-	
 	private String enviroment;
 	
 	public Sms() {

@@ -3,3 +3,22 @@ server:
 spring:
   application:
     name: bcb-sms-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/bcb
+    username: bcb
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  config:
+    import:
+    - optional:configserver:http://localhost:8888/
+  cloud:
+    config:
+      profile: defaul
+  flyway:
+    url: jdbc:postgresql://localhost:5433/
+    schemas: bcb
+    user: bcb
+    password: 123456
