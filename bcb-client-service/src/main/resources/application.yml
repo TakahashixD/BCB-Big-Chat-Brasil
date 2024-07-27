@@ -4,7 +4,7 @@ spring:
   application:
     name: bcb-client-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/bcb
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/bcb
     username: bcb
     password: 123456
   jpa:
@@ -18,7 +18,7 @@ spring:
 #    config:
 #      profile: default
   flyway:
-    url: jdbc:postgresql://localhost:5432/
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/
     schemas: bcb
     user: bcb
     password: 123456

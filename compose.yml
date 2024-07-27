@@ -1,0 +1,66 @@
+services:
+  postgres_client:
+    container_name: postgres_client
+    image: postgres:alpine3.20
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: bcb
+      POSTGRES_DB: bcb
+    volumes:
+      - postgre_docker_vol:/var/lib/postgresql/data
+    networks:
+      - bcb_net
+  bcb_client_service:
+    container_name: bcb_client_service
+    build:
+      context: ./bcb-client-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - bcb_net
+    depends_on:
+      - postgres_client
+    environment:
+      DB_HOSTNAME: postgres_client
+  postgres_sms:
+    container_name: postgres_sms
+    image: postgres:alpine3.20
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: bcb
+      POSTGRES_DB: bcb
+    volumes:
+      - postgre_docker_vol_sms:/var/lib/postgresql/data
+    networks:
+      - bcb_net
+  bcb_sms_service:
+    container_name: bcb_sms_service
+    build:
+      context: ./bcb-sms-service
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    networks:
+      - bcb_net
+    depends_on:
+      - postgres_sms
+    environment:
+      DB_HOSTNAME: postgres_sms
+      DB_PORT: 5432
+
+volumes:
+  postgre_docker_vol:
+    name: bcb_vol
+    external: false
+  postgre_docker_vol_sms:
+    name: bcb_vol_sms
+    external: false
+
+networks:
+  bcb_net:
+    driver: bridge
