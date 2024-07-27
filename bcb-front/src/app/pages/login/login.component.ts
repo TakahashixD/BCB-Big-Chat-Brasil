@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
+import { Component, signal} from '@angular/core';
 import { inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { User } from 'src/app/models/user.model';
 
@@ -11,9 +11,13 @@ import { User } from 'src/app/models/user.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  authService = inject(AuthService);
-  router = inject(Router);
-
+  authService;
+  router;
+  constructor(){
+    this.authService = inject(AuthService);
+    this.router = inject(Router);
+  
+  }
   protected loginForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])

@@ -16,9 +16,6 @@ public class ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
 	
-	@Autowired
-	private ClientConfiguration clientConfiguration;
-	
 	public Client createClient(Client client) {
 		return clientRepository.save(client);
 	}
@@ -31,8 +28,23 @@ public class ClientService {
 		return client.get();
 	}
 	
-	public Client updateClient(Long id) {
-		return clientRepository.findById(id).get();
+	public Client updateClient(Client client) {
+		var clientToUpdate = clientRepository.findById(client.getId());
+		if(clientToUpdate.isEmpty()) throw new RuntimeException("Client not found!");
+		var port = enviroment.getProperty("local.server.port");
+		var clientReturn = clientToUpdate.get();
+		clientReturn.setName(client.getName());
+		clientReturn.setEmail(client.getEmail());
+		clientReturn.setPhoneNumber(client.getPhoneNumber());
+		clientReturn.setCpf(client.getCpf());
+		clientReturn.setCnpj(client.getCnpj());
+		clientReturn.setCompanyName(client.getCompanyName());
+		clientReturn.setPlan(client.getPlan());
+		clientReturn.setCredits(client.getCredits());
+		clientReturn.setLimit(client.getLimit());
+		clientReturn = clientRepository.save(clientReturn);
+		clientReturn.setEnvironment(port);
+		return clientReturn;
 	}
 	
 	public void deleteClient(Long id) {

@@ -9,6 +9,11 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import {MatIconModule} from '@angular/material/icon'; 
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card'; 
+import {MatTableModule} from '@angular/material/table'; 
+import { MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +26,12 @@ import {MatIconModule} from '@angular/material/icon';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule
     
   ],
   providers: [],

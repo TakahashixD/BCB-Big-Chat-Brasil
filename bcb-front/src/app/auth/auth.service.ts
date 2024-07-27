@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { Observable } from 'rxjs';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,10 +13,6 @@ export class AuthService {
     if(data.getName() === "admin" && data.getPassword() === "1234"){
       localStorage.setItem('authUser', JSON.stringify(data.getName()+data.getPassword()));
     }
-    // return this.httpClient.post(`${this.baseUrl}/login`, data)
-    //   .pipe(tap((result) => {
-    //     localStorage.setItem('authUser', JSON.stringify(result));
-    //   }));
   }
 
   logout() {

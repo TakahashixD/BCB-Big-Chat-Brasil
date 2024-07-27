@@ -1,26 +1,30 @@
-<div class="login-card">
 
-    <div class="card-title">
-        <h1>Login</h1>
-        <span>You don't have an account? <a routerLink="/signup">Sign up</a></span>
-    </div>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <input name="email" type="email" formControlName="email" placeholder="Email">
-        <mat-form-field>
-            <mat-label>Enter your password</mat-label>
-            <input matInput [type]="hide() ? 'password' : 'text'" />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="clickEvent($event)"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide()"
-            >
-              <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
+        <div class="fields">
+          <mat-form-field>
+            <mat-label>Enter your name</mat-label>
+            <input formControlName="name" matInput />
           </mat-form-field>
-        <input type="password" formControlName="password" placeholder="Password">
-        <button>Submit</button>
+          <mat-form-field>
+              <mat-label>Enter your password</mat-label>
+              <input formControlName="password" matInput [type]="hide() ? 'password' : 'text'" />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="clickEvent($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()"
+              >
+                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <button mat-stroked-button>Submit</button>
+        </div>
     </form>
-
-</div>
+  </mat-card-content>
+</mat-card>

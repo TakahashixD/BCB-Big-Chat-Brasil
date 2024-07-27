@@ -1,0 +1,13 @@
+:host {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffd9e1;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
