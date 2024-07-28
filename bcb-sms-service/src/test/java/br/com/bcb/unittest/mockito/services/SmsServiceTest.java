@@ -19,7 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import br.com.bcb.enums.MessageType;
 import br.com.bcb.model.Sms;
