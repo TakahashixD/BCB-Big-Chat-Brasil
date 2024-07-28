@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.bcb.model.Client;
+import br.com.bcb.proxy.SmsProxy;
 import br.com.bcb.repositories.ClientRepository;
+import br.com.bcb.response.Sms;
 
 @Service
 public class ClientService {
@@ -16,6 +18,21 @@ public class ClientService {
 	
 	@Autowired
 	private ClientRepository clientRepository;
+	
+	@Autowired
+	private SmsProxy smsProxy;
+	
+	public Sms findSmsByClientId(Long client_id) {
+		var proxy = smsProxy.findByClientId(client_id);
+		var port = enviroment.getProperty("local.server.port");
+		proxy.setEnviroment("Local Port: "+ port +
+				" Proxy Port: " + proxy.getEnviroment());
+		return proxy;
+	}
+	
+	public Sms createSms(Sms sms) {
+		return smsProxy.createSms(sms);
+	}
 	
 	public Client createClient(Client client) {
 		return clientRepository.save(client);

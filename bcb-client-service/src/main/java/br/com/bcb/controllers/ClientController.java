@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bcb.model.Client;
-import br.com.bcb.proxy.SmsProxy;
 import br.com.bcb.response.Sms;
 import br.com.bcb.services.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,18 +29,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Client endpoint")
 @RestController
-@RequestMapping("api/client/v1")
+@RequestMapping("client-service")
 public class ClientController {
 	
 	@Autowired
 	private ClientService clientService;
 	
-	@Autowired
-	private SmsProxy smsProxy;
+	@GetMapping(value="sms-service/byClient/{id}")
+	public Sms findByClientId(@PathVariable("id") Long client_id) {
+		return clientService.findSmsByClientId(client_id);
+	}
 	
-	@PostMapping(value="/sms")
+	@PostMapping(value="/sms-service")
 	public Sms createSms(Sms sms) {
-		return smsProxy.createSms(sms);
+		return clientService.createSms(sms);
 	}
 	
 	@PostMapping()

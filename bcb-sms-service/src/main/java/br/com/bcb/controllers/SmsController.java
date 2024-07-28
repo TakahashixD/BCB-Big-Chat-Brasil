@@ -16,7 +16,7 @@ import br.com.bcb.services.SmsService;
 
 
 @RestController
-@RequestMapping("sms")
+@RequestMapping("sms-service")
 public class SmsController {
 		
 	@Autowired

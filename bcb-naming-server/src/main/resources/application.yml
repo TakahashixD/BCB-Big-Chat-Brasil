@@ -1,0 +1,15 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: bcb-naming-server
+eureka:
+  client:
+    #controls whether or not this client registers itself and therefore becomes discoverable. 
+    #This alone does not imply that this client is going to fetch the information on other services' 
+    #endpoints and therefore being able to connect to them.
+    register-with-eureka: false
+    #controls whether or not this client is going to try to connect to the Eureka server(s) 
+    #in order to download the information on other services' endpoint. 
+    #It can do so without registering itself.
+    fetch-registry: false

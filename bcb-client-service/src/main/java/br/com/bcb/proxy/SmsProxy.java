@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.bcb.response.Sms;
 
 
-@FeignClient(name = "bcb-sms-service", url = "localhost:8100")
+@FeignClient(name = "bcb-sms-service")
 public interface SmsProxy {
 	
-	@PostMapping(value="/sms")
+	@PostMapping(value="sms-service")
 	public Sms createSms(@RequestBody Sms sms);
 	
-	@GetMapping(value="/sms/byClient/{id}")
+	@GetMapping(value="/sms-service/byClient/{id}")
 	public Sms findByClientId(@PathVariable("id") Long client_id);
 }
