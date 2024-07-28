@@ -11,9 +11,9 @@ import io.swagger.v3.oas.models.info.License;
 
 @Configuration
 @OpenAPIDefinition(info =
-        @Info(title = "BCB Client Service API",
+        @Info(title = "BCB Sms Service API",
                 version = "v1",
-                description = "Documentation of Client Service API"))
+                description = "Documentation of Sms Service API"))
 public class OpenApiConfig {
 	
 	@Bean
@@ -21,7 +21,7 @@ public class OpenApiConfig {
 		return new OpenAPI().components(new Components())
 				.info(
 						new io.swagger.v3.oas.models.info.Info()
-						.title("BCB Client Service API")
+						.title("BCB Sms Service API")
 						.version("v1")
 						.license(new License()
 								.name("Apache 2.0")

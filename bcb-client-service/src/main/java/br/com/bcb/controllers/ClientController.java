@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.bcb.model.Client;
 import br.com.bcb.response.Sms;
 import br.com.bcb.services.ClientService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,10 +31,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Client endpoint")
 @RestController
 @RequestMapping("client-service")
+@CircuitBreaker(name = "default", fallbackMethod = "fallbackMethod")
 public class ClientController {
 	
 	@Autowired
 	private ClientService clientService;
+	
+	public String fallbackMethod(Exception ex) {
+		return ex.getMessage();
+	}
 	
 	@GetMapping(value="sms-service/byClient/{id}")
 	public Sms findByClientId(@PathVariable("id") Long client_id) {
@@ -47,7 +53,6 @@ public class ClientController {
 	
 	@PostMapping()
 	@Operation(summary = "Create a new client", description = "Create a new client", 
-	tags = {"Clients"},
 	responses = {
 			@ApiResponse(description="Created", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
@@ -61,7 +66,6 @@ public class ClientController {
 	
 	@GetMapping()
 	@Operation(summary = "Finds all client", description = "Finds all client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -85,7 +89,6 @@ public class ClientController {
 	
 	@GetMapping(value = "/findClientsByName/{name}")
 	@Operation(summary = "Finds all client by name", description = "Finds all client by name", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -110,7 +113,6 @@ public class ClientController {
 	
 	@GetMapping(value="/{id}")
 	@Operation(summary = "Finds a client", description = "Finds a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -125,7 +127,6 @@ public class ClientController {
 	
 	@PutMapping(value="/{id}")
 	@Operation(summary = "Update a client", description = "Update a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -140,7 +141,6 @@ public class ClientController {
 	
 	@DeleteMapping(value="/{id}")
 	@Operation(summary = "Delete a client", description = "Delete a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
 			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
@@ -154,7 +154,6 @@ public class ClientController {
 	
 	@GetMapping(value="/credits/{id}")
 	@Operation(summary = "Finds credits of a client", description = "Finds credits of a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -169,7 +168,6 @@ public class ClientController {
 	
 	@GetMapping(value="/limit/{id}")
 	@Operation(summary = "Finds limits of a client", description = "Finds limits of a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -184,7 +182,6 @@ public class ClientController {
 	
 	@PutMapping(value="/credits/{id}/{credits}")
 	@Operation(summary = "Add credits to a client", description = "Add credits to a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -199,7 +196,6 @@ public class ClientController {
 	
 	@PutMapping(value="/limit/{id}/{limit}")
 	@Operation(summary = "Add credits to a client", description = "Add credits to a client", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
@@ -214,7 +210,6 @@ public class ClientController {
 	
 	@PutMapping(value="/plan/{id}/{plan}")
 	@Operation(summary = "Update client plan", description = "Update client plan", 
-	tags = {"Client"},
 	responses = {
 			@ApiResponse(description="Updated", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
 			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),

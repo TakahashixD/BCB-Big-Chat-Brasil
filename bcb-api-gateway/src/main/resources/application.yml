@@ -7,3 +7,30 @@ eureka:
 spring:
   application:
     name: bcb-api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: client-service
+        uri: lb://bcb-client-service
+        predicates:
+        - Path=/client-service/**
+      - id: sms-service
+        uri: lb://bcb-sms-service
+        predicates:
+        - Path=/sms-service/**
+      - id: openapi
+        uri: lb://bcb-api-gateway
+        predicates:
+        - Path=/v3/api-docs/**
+        filters:
+        - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+springdoc:
+  swagger-ui:
+    urls:
+      - name: client-service
+        url: /v3/api-docs/client-service
+      - name: sms-service
+        url: /v3/api-docs/sms-service

@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bcb.model.Sms;
 import br.com.bcb.services.SmsService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-
+@Tag(name = "Sms endpoint")
 @RestController
 @RequestMapping("sms-service")
 public class SmsController {

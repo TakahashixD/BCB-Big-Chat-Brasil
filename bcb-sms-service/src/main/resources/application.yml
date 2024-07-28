@@ -26,3 +26,9 @@ spring:
     schemas: bcb
     user: bcb
     password: 123456
+springdoc:
+  api-docs:
+    path: sms-service/v3/api-docs
+  swagger-ui:
+    config-url: /sms-service/v3/api-docs/swagger-config
+    url: /sms-service/v3/api-docs
