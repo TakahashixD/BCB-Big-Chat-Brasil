@@ -177,5 +177,14 @@ public class Client implements Serializable{
 				&& Objects.equals(name, other.name) && Objects.equals(phoneNumber, other.phoneNumber)
 				&& Objects.equals(plan, other.plan);
 	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + ", email=" + email + ", phoneNumber=" + phoneNumber + ", cpf="
+				+ cpf + ", cnpj=" + cnpj + ", companyName=" + companyName + ", plan=" + plan + ", credits=" + credits
+				+ ", maxLimit=" + maxLimit + ", environment=" + environment + "]";
+	}
+	
+	
 	
 }

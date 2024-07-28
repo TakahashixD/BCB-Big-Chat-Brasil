@@ -2,6 +2,12 @@ package br.com.bcb.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bcb.model.Client;
@@ -23,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Client endpoint")
 @RestController
-@RequestMapping("client")
+@RequestMapping("api/client/v1")
 public class ClientController {
 	
 	@Autowired
@@ -37,12 +44,7 @@ public class ClientController {
 		return smsProxy.createSms(sms);
 	}
 	
-	@GetMapping(value="/sms/{id}")
-	public Sms findByClientId(Long client_id) {
-		return smsProxy.findByClientId(client_id);
-	}
-	
-	@PostMapping(value="/{id}")
+	@PostMapping()
 	@Operation(summary = "Create a new client", description = "Create a new client", 
 	tags = {"Clients"},
 	responses = {
@@ -54,6 +56,55 @@ public class ClientController {
 	})
 	public Client createClient(@RequestBody Client client) {
 		return clientService.createClient(client);
+	}
+	
+	@GetMapping()
+	@Operation(summary = "Finds all client", description = "Finds all client", 
+	tags = {"Client"},
+	responses = {
+			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
+			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
+			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
+			@ApiResponse(description="Unauthorized", responseCode = "401", content= @Content),
+			@ApiResponse(description="Not Found", responseCode = "404", content= @Content),
+			@ApiResponse(description="Internal Server Error", responseCode = "500", content= @Content),
+	})
+	public ResponseEntity<Page<Client>> findAll(
+			@RequestParam(value= "page", defaultValue = "0") Integer page,
+			@RequestParam(value= "size", defaultValue = "5") Integer size,
+			@RequestParam(value= "direction", defaultValue = "asc") String direction
+			) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction) 
+				? Direction.DESC : Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+		return ResponseEntity.ok(clientService.findAll(pageable));
+	}
+	
+	@GetMapping(value = "/findClientsByName/{name}")
+	@Operation(summary = "Finds all client by name", description = "Finds all client by name", 
+	tags = {"Client"},
+	responses = {
+			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
+			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
+			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
+			@ApiResponse(description="Unauthorized", responseCode = "401", content= @Content),
+			@ApiResponse(description="Not Found", responseCode = "404", content= @Content),
+			@ApiResponse(description="Internal Server Error", responseCode = "500", content= @Content),
+	})
+	public ResponseEntity<Page<Client>> findClientsByName(
+			@RequestParam(value= "page", defaultValue = "0") Integer page,
+			@RequestParam(value= "size", defaultValue = "5") Integer size,
+			@RequestParam(value= "direction", defaultValue = "asc") String direction,
+			@PathVariable(value = "name") String name
+			) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction) 
+				? Direction.DESC : Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+		return ResponseEntity.ok(clientService.findClientsByName(name, pageable));
 	}
 	
 	@GetMapping(value="/{id}")
@@ -161,6 +212,15 @@ public class ClientController {
 	}
 	
 	@PutMapping(value="/plan/{id}/{plan}")
+	@Operation(summary = "Update client plan", description = "Update client plan", 
+	tags = {"Client"},
+	responses = {
+			@ApiResponse(description="Updated", responseCode = "200", content= @Content(schema=@Schema(implementation = Client.class))),
+			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
+			@ApiResponse(description="Unauthorized", responseCode = "401", content= @Content),
+			@ApiResponse(description="Not Found", responseCode = "404", content= @Content),
+			@ApiResponse(description="Internal Server Error", responseCode = "500", content= @Content),
+	})
 	public Client changeClientPlan(@PathVariable("id") Long id, @PathVariable("plan") String plan) {
 		return clientService.changeClientPlan(id, plan);
 	}

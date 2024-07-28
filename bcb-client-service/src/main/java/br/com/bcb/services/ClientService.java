@@ -2,9 +2,10 @@ package br.com.bcb.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.bcb.configuration.ClientConfiguration;
 import br.com.bcb.model.Client;
 import br.com.bcb.repositories.ClientRepository;
 
@@ -18,6 +19,20 @@ public class ClientService {
 	
 	public Client createClient(Client client) {
 		return clientRepository.save(client);
+	}
+	
+	public Page<Client> findAll(Pageable pageable) {	
+		var clientPage = clientRepository.findAll(pageable);
+		var port = enviroment.getProperty("local.server.port");
+		clientPage.getContent().stream().forEach(c -> c.setEnvironment(port));
+		return clientPage;
+	}
+	
+	public Page<Client> findClientsByName(String name, Pageable pageable) {	
+		var clientPage = clientRepository.findClientsByName(name, pageable);
+		var port = enviroment.getProperty("local.server.port");
+		clientPage.getContent().stream().forEach(c -> c.setEnvironment(port));
+		return clientPage;
 	}
 	
 	public Client findById(Long id) {

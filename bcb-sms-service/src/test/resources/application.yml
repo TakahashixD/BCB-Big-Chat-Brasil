@@ -1,8 +1,8 @@
 server:
-  port: 8080
+  port: 8100
 spring:
   application:
-    name: bcb-client-service
+    name: bcb-sms-service
   jpa:
     hibernate:
       ddl-auto: none
