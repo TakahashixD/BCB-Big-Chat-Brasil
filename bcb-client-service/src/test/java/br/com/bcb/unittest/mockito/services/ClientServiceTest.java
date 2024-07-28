@@ -162,6 +162,28 @@ public class ClientServiceTest {
 	}
 	
 	@Test
+	void testUpdateClient() {
+		Client client = mockClient.mockEntity(1);
+		client.setId(1L);
+		Client persisted = client;
+		
+		when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+		when(clientRepository.save(client)).thenReturn(persisted);
+		
+		var result = clientService.updateClient(client);
+		assertNotNull(result);
+		assertEquals("nome1", result.getName());
+		assertEquals("email@1", result.getEmail());
+		assertEquals("phone1", result.getPhoneNumber());
+		assertEquals("cpf1", result.getCpf());
+		assertEquals("cnpj1", result.getCnpj());
+		assertEquals("company1", result.getCompanyName());
+		assertEquals(1L, result.getCredits());
+		assertEquals(1L*2, result.getLimit());
+		
+	}
+	
+	@Test
 	void testFindCreditsClientById() {
 		Client client = mockClient.mockEntity(1);
 		client.setId(1L);

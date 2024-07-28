@@ -22,12 +22,12 @@ public class ClientService {
 	@Autowired
 	private SmsProxy smsProxy;
 	
-	public Sms findSmsByClientId(Long client_id) {
-		var proxy = smsProxy.findByClientId(client_id);
+	public Page<Sms> findSmsByClientId(Long client_id, Integer page, Integer size) {
+		var proxy = smsProxy.findByClientId(client_id, page, size);
 		var port = enviroment.getProperty("local.server.port");
-		proxy.setEnviroment("Local Port: "+ port +
-				" Proxy Port: " + proxy.getEnviroment());
-		return proxy;
+		proxy.getBody().getContent().stream().forEach(c -> c.setEnviroment("Local Port: "+ port +
+				" Proxy Port: " + c.getEnviroment()));
+		return proxy.getBody();
 	}
 	
 	public Sms createSms(Sms sms) {

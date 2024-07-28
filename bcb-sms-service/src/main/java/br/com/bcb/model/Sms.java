@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Table(name = "sms")
 @Entity
@@ -36,6 +37,7 @@ public class Sms implements Serializable{
 	@Column(name = "text_sms", nullable = false)
 	private String textSms;
 	
+	@Transient
 	private String enviroment;
 	
 	public Sms() {

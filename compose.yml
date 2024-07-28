@@ -1,4 +1,28 @@
 services:
+  naming-server:
+    image: takahashidt/naming-server
+    container_name: naming-server
+    build:
+      context: ./bcb-naming-server
+      dockerfile: Dockerfile
+    ports:
+      - 8761:8761
+    networks:
+      - bcb_net
+  api_gateway:
+    image: takahashidt/api_gateway
+    container_name: api_gateway
+    build:
+      context: ./bcb-api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - 8765:8765
+    networks:
+      - bcb_net
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
   postgres_client:
     container_name: postgres_client
     image: postgres:alpine3.20
@@ -13,6 +37,7 @@ services:
     networks:
       - bcb_net
   bcb_client_service:
+    image: takahashidt/bcb_client_service
     container_name: bcb_client_service
     build:
       context: ./bcb-client-service
@@ -23,7 +48,9 @@ services:
       - bcb_net
     depends_on:
       - postgres_client
+      - naming-server
     environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       DB_HOSTNAME: postgres_client
   postgres_sms:
     container_name: postgres_sms
@@ -39,6 +66,7 @@ services:
     networks:
       - bcb_net
   bcb_sms_service:
+    image: takahashidt/bcb_sms_service
     container_name: bcb_sms_service
     build:
       context: ./bcb-sms-service
@@ -49,7 +77,9 @@ services:
       - bcb_net
     depends_on:
       - postgres_sms
+      - naming-server
     environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       DB_HOSTNAME: postgres_sms
       DB_PORT: 5432
 
@@ -63,4 +93,5 @@ volumes:
 
 networks:
   bcb_net:
+    name: bcb_network
     driver: bridge

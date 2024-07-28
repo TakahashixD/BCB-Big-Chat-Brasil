@@ -42,11 +42,30 @@ public class ClientController {
 	}
 	
 	@GetMapping(value="sms-service/byClient/{id}")
-	public Sms findByClientId(@PathVariable("id") Long client_id) {
-		return clientService.findSmsByClientId(client_id);
+	@Operation(summary = "Finds all sms of a client", description = "Finds all sms of a client", 
+	responses = {
+			@ApiResponse(description="Success", responseCode = "200", content= @Content(schema=@Schema(implementation = Sms.class))),
+			@ApiResponse(description="No Content", responseCode = "204", content= @Content),
+			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
+			@ApiResponse(description="Unauthorized", responseCode = "401", content= @Content),
+			@ApiResponse(description="Not Found", responseCode = "404", content= @Content),
+			@ApiResponse(description="Internal Server Error", responseCode = "500", content= @Content),
+	})
+	public ResponseEntity<Page<Sms>> findByClientId(@PathVariable("id") Long client_id,
+			@RequestParam(value= "page", defaultValue = "0") Integer page,
+			@RequestParam(value= "size", defaultValue = "5") Integer size) {
+		return ResponseEntity.ok(clientService.findSmsByClientId(client_id, page, size));
 	}
 	
 	@PostMapping(value="/sms-service")
+	@Operation(summary = "Create a new from the client sms", description = "Create a new from the client sms", 
+	responses = {
+			@ApiResponse(description="Created", responseCode = "200", content= @Content(schema=@Schema(implementation = Sms.class))),
+			@ApiResponse(description="Bad Request", responseCode = "400", content= @Content),
+			@ApiResponse(description="Unauthorized", responseCode = "401", content= @Content),
+			@ApiResponse(description="Not Found", responseCode = "404", content= @Content),
+			@ApiResponse(description="Internal Server Error", responseCode = "500", content= @Content),
+	})
 	public Sms createSms(Sms sms) {
 		return clientService.createSms(sms);
 	}

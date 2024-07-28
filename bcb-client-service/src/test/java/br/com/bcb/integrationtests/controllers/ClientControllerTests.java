@@ -59,7 +59,7 @@ public class ClientControllerTests extends AbstractIntegrationTest {
 		mockClient();
 		specification = new RequestSpecBuilder()
 				.addHeader("Origin", "https://localhost:8080")
-				.setBasePath("/api/client/v1")
+				.setBasePath("/client-service")
 				.setPort(8080)
 				.addFilter(new RequestLoggingFilter(LogDetail.ALL))
 				.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
@@ -108,7 +108,7 @@ public class ClientControllerTests extends AbstractIntegrationTest {
 		mockClient();
 		specification = new RequestSpecBuilder()
 				.addHeader("Origin", "https://localhost:8080")
-				.setBasePath("/api/client/v1")
+				.setBasePath("/client-service")
 				.setPort(8080)
 				.addFilter(new RequestLoggingFilter(LogDetail.ALL))
 				.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
