@@ -1,5 +1,6 @@
 # BCB-Big-Chat-Brasil-IRRAH
-As requests podem ser testadas pelo swagger-ui
+As requests podem ser testadas pelo swagger-ui.
+
 Para rodar usando o docker compose basta usar o comando abaixo no diretorio onde est;a o arquivo compose.yml
 ```
 docker compose up -d
