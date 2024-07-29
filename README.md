@@ -6,7 +6,9 @@ Para rodar usando o docker compose basta usar o comando abaixo no diretorio onde
 docker compose up -d
 ```
 Caso queira rodar sem o compose, rodar na ordem abaixo:
-(Caso não queira pular os teste remova o "-DskipTests", os testes de integração estão utilizando TestContainers então se não estiver com docker instalado e rodando eles vão quebrar)
+
+(Caso não queira pular os teste remova o "-DskipTests", os testes de integração estão utilizando TestContainers então se não estiver com docker instalado e rodando eles vão quebrar).
+
 Criar os containers dos DBs dos services. 
 ```
 docker container run -d --net=bcb -p 5432:5432 -e POSTGRES_PASSWORD=123456 -e POSTGRES_USER=bcb -e POSTGRES_DB=bcb -v bcb_client_volume:/var/lib/postgresql/data --name bcb_client_db postgres:alpine3.20
