@@ -78,11 +78,18 @@ services:
     depends_on:
       - postgres_sms
       - naming-server
+      - zipkin
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       DB_HOSTNAME: postgres_sms
       DB_PORT: 5432
-
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - bcb_net
 volumes:
   postgre_docker_vol:
     name: bcb_vol

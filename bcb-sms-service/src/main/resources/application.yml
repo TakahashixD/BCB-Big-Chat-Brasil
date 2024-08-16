@@ -26,6 +26,17 @@ spring:
     schemas: bcb
     user: bcb
     password: 123456
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: w3c
+    baggage:
+      enabled: true
 springdoc:
   api-docs:
     path: sms-service/v3/api-docs
