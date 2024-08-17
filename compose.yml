@@ -9,6 +9,36 @@ services:
       - 8761:8761
     networks:
       - bcb_net
+
+  rabbit-mq:
+    container_name: rabbit-mq
+    image: rabbitmq:management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - bcb_net
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    restart: always
+    networks:
+      - bcb_net
+    depends_on:
+      rabbit-mq:
+        condition: service_healthy
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
+      RABBIT_QUEUE: zipkin
+
   api_gateway:
     image: takahashidt/api_gateway
     container_name: api_gateway
@@ -21,8 +51,16 @@ services:
       - bcb_net
     depends_on:
       - naming-server
+      - zipkin
+      - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      ZIPKIN_HOST: zipkin
+      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
+      RABBIT_QUEUE: zipkin
+      SPRING_RABBITMQ_HOST: rabbit-mq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
   postgres_client:
     container_name: postgres_client
     image: postgres:alpine3.20
@@ -36,6 +74,7 @@ services:
       - postgre_docker_vol:/var/lib/postgresql/data
     networks:
       - bcb_net
+
   bcb_client_service:
     image: takahashidt/bcb_client_service
     container_name: bcb_client_service
@@ -49,9 +88,17 @@ services:
     depends_on:
       - postgres_client
       - naming-server
+      - zipkin
+      - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       DB_HOSTNAME: postgres_client
+      ZIPKIN_HOST: zipkin
+      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
+      RABBIT_QUEUE: zipkin
+      SPRING_RABBITMQ_HOST: rabbit-mq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
   postgres_sms:
     container_name: postgres_sms
     image: postgres:alpine3.20
@@ -65,6 +112,7 @@ services:
       - postgre_docker_vol_sms:/var/lib/postgresql/data
     networks:
       - bcb_net
+
   bcb_sms_service:
     image: takahashidt/bcb_sms_service
     container_name: bcb_sms_service
@@ -79,17 +127,17 @@ services:
       - postgres_sms
       - naming-server
       - zipkin
+      - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
       DB_HOSTNAME: postgres_sms
       DB_PORT: 5432
-  zipkin:
-    container_name: zipkin
-    image: openzipkin/zipkin
-    ports:
-      - "9411:9411"
-    networks:
-      - bcb_net
+      ZIPKIN_HOST: zipkin
+      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
+      RABBIT_QUEUE: zipkin
+      SPRING_RABBITMQ_HOST: rabbit-mq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
 volumes:
   postgre_docker_vol:
     name: bcb_vol
