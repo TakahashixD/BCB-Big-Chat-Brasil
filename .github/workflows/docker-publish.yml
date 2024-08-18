@@ -49,11 +49,17 @@ jobs:
 
       - name: Push to DockerHub Container Registry
         run: | 
-          docker tag ${{secrets.DOCKERHUB_USERNAME}}/naming-server:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/naming-server:${{github.run_id}}
-          docker tag ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:latest
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:latest
           docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:latest ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:${{github.run_id}}
           docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:latest ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:${{github.run_id}}
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/naming-server:${{github.run_id}}
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb-naming-server:latest
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb-api-gateway:latest
           docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:${{github.run_id}}
           docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:latest
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:latest
