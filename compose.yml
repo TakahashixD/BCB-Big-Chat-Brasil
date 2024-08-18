@@ -1,6 +1,6 @@
 services:
   naming-server:
-    image: takahashidt/naming-server
+    image: takahashidt/bcb-naming-server
     container_name: naming-server
     ports:
       - 8761:8761
@@ -37,7 +37,7 @@ services:
       RABBIT_QUEUE: zipkin
 
   api_gateway:
-    image: takahashidt/api_gateway
+    image: takahashidt/bcb-api-gateway
     container_name: api_gateway
     ports:
       - 8765:8765
