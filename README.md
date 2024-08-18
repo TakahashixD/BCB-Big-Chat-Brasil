@@ -1,4 +1,6 @@
-# BCB-Big-Chat-Brasil-IRRAH
+# BCB-Big-Chat-Brasil
+[![CI with github](https://github.com/TakahashixD/BCB-Big-Chat-Brasil-IRRAH/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/TakahashixD/BCB-Big-Chat-Brasil-IRRAH/actions/workflows/docker-publish.yml)
+
 Projeto para testar e aprender arquitetura micro services 
 
 As requests podem ser testadas pelo swagger-ui.
