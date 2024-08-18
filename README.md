@@ -1,7 +1,7 @@
 # BCB-Big-Chat-Brasil
 [![CI with github](https://github.com/TakahashixD/BCB-Big-Chat-Brasil-IRRAH/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/TakahashixD/BCB-Big-Chat-Brasil-IRRAH/actions/workflows/docker-publish.yml)
 
-Projeto para testar e aprender arquitetura micro services 
+Projeto de para testar e aprender arquitetura micro services, tendo dois services client e sms, onde um client poderia fazer envio de sms via API.
 
 As requests podem ser testadas pelo swagger-ui.
 
