@@ -34,5 +34,15 @@ jobs:
       - name: Build API Gateway Container Image
         working-directory: ./bcb-api-gateway
         run: mvn spring-boot:build-image
-      
+
+      - name: Build Client service JAR
+        working-directory: ./bcb-client-service
+        run: mvn clean package
           
+      - name: Build SMS service JAR
+        working-directory: ./bcb-sms-service
+        run: mvn clean package
+        
+      - name: Docker Compose BUILD
+        working-directory: .
+        run: docker-compose build
