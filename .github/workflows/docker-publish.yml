@@ -45,4 +45,15 @@ jobs:
         
       - name: Docker Compose BUILD
         working-directory: .
-        run: docker-compose build
+        run: docker compose build
+
+      - name: Push to DockerHub Container Registry
+        run: | 
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/naming-server:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/naming-server:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:0.0.1-SNAPSHOT ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:latest ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:${{github.run_id}}
+          docker tag ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:latest ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/naming-server:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/api_gateway:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_client_service:${{github.run_id}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/bcb_sms_service:${{github.run_id}}
