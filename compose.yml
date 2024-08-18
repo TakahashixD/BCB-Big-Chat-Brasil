@@ -2,9 +2,6 @@ services:
   naming-server:
     image: takahashidt/naming-server
     container_name: naming-server
-    build:
-      context: ./bcb-naming-server
-      dockerfile: Dockerfile
     ports:
       - 8761:8761
     networks:
@@ -42,9 +39,6 @@ services:
   api_gateway:
     image: takahashidt/api_gateway
     container_name: api_gateway
-    build:
-      context: ./bcb-api-gateway
-      dockerfile: Dockerfile
     ports:
       - 8765:8765
     networks:
